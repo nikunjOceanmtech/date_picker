@@ -3,36 +3,6 @@ import 'package:flutter/material.dart';
 import '../shared/picker_type.dart';
 import 'date_picker.dart';
 
-/// Shows a dialog containing a Material Design date picker.
-///
-/// The returned [Future] resolves to the date selected by the user or `null` when tap
-/// outside the dialog.
-///
-/// When the date picker is first displayed, it will show the [initialDate].
-///
-/// The [minDate] is the earliest allowable date. The [maxDate] is the latest
-/// allowable date. [initialDate] and [selectedDate] must either fall between these dates,
-/// or be equal to one of them. For each of these [DateTime] parameters, only
-/// their dates are considered. Their time fields are ignored. They must all
-/// be non-null.
-///
-/// [initialDate] and [currentDate], If not specified, they will default to `DateTime.now()` date.
-///
-/// The locale for the date picker defaults to the ambient locale
-/// provided by [Localizations].
-///
-/// The [context], [useRootNavigator] and [routeSettings] arguments are passed to
-/// [showDialog], the documentation for which discusses how it is used.
-///
-/// An optional [initialPickerType] argument can be used to have the
-/// date picker initially appear in the [initialPickerType.year],
-/// [initialPickerType.month] or [initialPickerType.day] mode. It defaults
-/// to [initialPickerType.day].
-///
-/// See also:
-///
-///  * [DatePicker], which provides the calendar grid used by the date picker dialog.
-///
 Future<DateTime?> showDatePickerDialog({
   required BuildContext context,
   required DateTime maxDate,
@@ -66,7 +36,7 @@ Future<DateTime?> showDatePickerDialog({
   Color? splashColor,
   double? splashRadius,
 }) async {
-  return showDialog<DateTime>(
+  return showDialog(
     context: context,
     barrierColor: barrierColor,
     anchorPoint: anchorPoint,

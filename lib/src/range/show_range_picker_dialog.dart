@@ -3,35 +3,6 @@ import 'package:flutter/material.dart';
 import '../shared/picker_type.dart';
 import 'range_picker.dart';
 
-/// Shows a dialog containing a Material Design range picker.
-///
-/// The returned [Future] resolves to the range selected by the user or `null` when tap
-/// outside the dialog.
-///
-/// When the range picker is first displayed, it will show the [initialDate].
-///
-/// The [minDate] is the earliest allowable date. The [maxDate] is the latest
-/// allowable date. [initialDate] and [selectedRange] must either fall between these dates,
-/// or be equal to one of them. For each of these [DateTime] parameters, only
-/// their dates are considered. Their time fields are ignored.
-///
-/// [initialDate] and [currentDate], If not specified, they will default to `DateTime.now()` date.
-///
-/// The locale for the date picker defaults to the ambient locale
-/// provided by [Localizations].
-///
-/// The [context], [useRootNavigator] and [routeSettings] arguments are passed to
-/// [showDialog], the documentation for which discusses how it is used.
-///
-/// An optional [initialPickerType] argument can be used to have the
-/// date picker initially appear in the [initialPickerType.year],
-/// [initialPickerType.month] or [initialPickerType.day] mode. It defaults
-/// to [initialPickerType.day].
-///
-/// See also:
-///
-///  * [RangeDatePicker], which provides the calendar grid used by the range picker dialog.
-///
 Future<DateTimeRange?> showRangePickerDialog({
   required BuildContext context,
   required DateTime maxDate,
@@ -66,8 +37,18 @@ Future<DateTimeRange?> showRangePickerDialog({
   Color? highlightColor,
   Color? splashColor,
   double? splashRadius,
+  Color? backgroundColor,
+  TextStyle? applyButtonTextStyle,
+  BoxDecoration? applyButtonBoxDecoration,
+  TextStyle? cancelButtonTextStyle,
+  BoxDecoration? cancelButtonBoxDecoration,
+  double? twoButtonCenterSpace,
+  String? calcelButtonText,
+  String? okButtonText,
+  Color? applyButtonColor,
+  Color? cancelButtonColor,
 }) async {
-  return showDialog<DateTimeRange>(
+  return showDialog(
     context: context,
     barrierColor: barrierColor,
     anchorPoint: anchorPoint,
@@ -80,14 +61,25 @@ Future<DateTimeRange?> showRangePickerDialog({
       return Padding(
         padding: padding,
         child: Dialog(
+          backgroundColor: backgroundColor ?? Colors.white,
+          surfaceTintColor: backgroundColor ?? Colors.white,
           insetPadding: EdgeInsets.zero,
           child: RangeDatePicker(
+            applyButtonTextStyle: applyButtonTextStyle,
+            applyButtonBoxDecoration: applyButtonBoxDecoration,
+            cancelButtonTextStyle: cancelButtonTextStyle,
+            cancelButtonBoxDecoration: cancelButtonBoxDecoration,
+            twoButtonCenterSpace: twoButtonCenterSpace,
+            calcelButtonText: calcelButtonText,
+            okButtonText: okButtonText,
+            applyButtonColor: applyButtonColor,
+            cancelButtonColor: cancelButtonColor,
             currentDate: currentDate,
             maxDate: maxDate,
             minDate: minDate,
             initialDate: initialDate,
             selectedRange: selectedRange,
-            onRangeSelected: (value) => Navigator.pop(context, value),
+            onRangeSelected: (value) => value,
             initialPickerType: initialPickerType,
             padding: contentPadding,
             currentDateDecoration: currentDateDecoration,

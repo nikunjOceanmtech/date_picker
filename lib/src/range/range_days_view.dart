@@ -42,18 +42,13 @@ class RangeDaysView extends StatelessWidget {
   })  : assert(!minDate.isAfter(maxDate), "minDate can't be after maxDate"),
         assert(() {
           if (selectedStartDate == null) return true;
-          return (selectedStartDate.isAfter(minDate) ||
-                  selectedStartDate.isAtSameMomentAs(minDate)) &&
-              (selectedStartDate.isBefore(maxDate) ||
-                  selectedStartDate.isAtSameMomentAs(maxDate));
-        }(),
-            "selected start date should be in the range of min date & max date"),
+          return (selectedStartDate.isAfter(minDate) || selectedStartDate.isAtSameMomentAs(minDate)) &&
+              (selectedStartDate.isBefore(maxDate) || selectedStartDate.isAtSameMomentAs(maxDate));
+        }(), "selected start date should be in the range of min date & max date"),
         assert(() {
           if (selectedEndDate == null) return true;
-          return (selectedEndDate.isAfter(minDate) ||
-                  selectedEndDate.isAtSameMomentAs(minDate)) &&
-              (selectedEndDate.isBefore(maxDate) ||
-                  selectedEndDate.isAtSameMomentAs(maxDate));
+          return (selectedEndDate.isAfter(minDate) || selectedEndDate.isAtSameMomentAs(minDate)) &&
+              (selectedEndDate.isBefore(maxDate) || selectedEndDate.isAtSameMomentAs(maxDate));
         }(), "selected end date should be in the range of min date & max date");
 
   /// The currently selected start date.
@@ -155,8 +150,7 @@ class RangeDaysView extends StatelessWidget {
     MaterialLocalizations localizations,
   ) {
     final List<Widget> result = <Widget>[];
-    final weekdayNames =
-        intl.DateFormat('', locale.toString()).dateSymbols.SHORTWEEKDAYS;
+    final weekdayNames = intl.DateFormat('', locale.toString()).dateSymbols.SHORTWEEKDAYS;
 
     for (int i = localizations.firstDayOfWeekIndex; true; i = (i + 1) % 7) {
       // to save space in arabic as arabic don't has short week days.
@@ -165,7 +159,7 @@ class RangeDaysView extends StatelessWidget {
         ExcludeSemantics(
           child: Center(
             child: Text(
-              weekday.toUpperCase(),
+              weekday[0].toUpperCase() + weekday.replaceFirst(weekday[0].toUpperCase(), ''),
               style: daysOfTheWeekTextStyle,
             ),
           ),
@@ -180,8 +174,7 @@ class RangeDaysView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
     //
     //
     //
@@ -203,20 +196,16 @@ class RangeDaysView extends StatelessWidget {
         dayItems.add(const SizedBox.shrink());
       } else {
         final DateTime dayToBuild = DateTime(year, month, day);
-        final bool isDisabled =
-            dayToBuild.isAfter(maxDate) || dayToBuild.isBefore(minDate);
+        final bool isDisabled = dayToBuild.isAfter(maxDate) || dayToBuild.isBefore(minDate);
 
-        final isRangeSelected =
-            selectedStartDate != null && selectedEndDate != null;
+        final isRangeSelected = selectedStartDate != null && selectedEndDate != null;
 
-        final isSingleCellSelected = (selectedStartDate != null &&
-                selectedEndDate == null &&
-                dayToBuild == selectedStartDate) &&
-            !isRangeSelected;
+        final isSingleCellSelected =
+            (selectedStartDate != null && selectedEndDate == null && dayToBuild == selectedStartDate) &&
+                !isRangeSelected;
 
-        final bool isWithinRange = isRangeSelected &&
-            dayToBuild.isAfter(selectedStartDate!) &&
-            dayToBuild.isBefore(selectedEndDate!);
+        final bool isWithinRange =
+            isRangeSelected && dayToBuild.isAfter(selectedStartDate!) && dayToBuild.isBefore(selectedEndDate!);
 
         final isStartDate = DateUtils.isSameDay(selectedStartDate, dayToBuild);
 
@@ -293,9 +282,8 @@ class RangeDaysView extends StatelessWidget {
         } else {
           dayWidget = InkResponse(
             onTap: () {
-              final isStart =
-                  (selectedEndDate == null && selectedStartDate == null) ||
-                      (selectedEndDate != null && selectedStartDate != null);
+              final isStart = (selectedEndDate == null && selectedStartDate == null) ||
+                  (selectedEndDate != null && selectedStartDate != null);
 
               if (isStart) {
                 onStartDateChanged(dayToBuild);
@@ -427,8 +415,6 @@ class _DecorationPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _DecorationPainter oldDelegate) {
-    return oldDelegate.textDirection != textDirection ||
-        oldDelegate.color != color ||
-        oldDelegate.start != start;
+    return oldDelegate.textDirection != textDirection || oldDelegate.color != color || oldDelegate.start != start;
   }
 }

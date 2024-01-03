@@ -6,15 +6,7 @@ import '../shared/picker_grid_delegate.dart';
 
 const double _dayPickerRowHeight = 52.0;
 
-/// Displays the days of a given month and allows choosing a day.
-///
-/// The days are arranged in a rectangular grid with one column for each day of
-/// the week.
 class DaysView extends StatelessWidget {
-  /// Displays the days of a given month and allows choosing a day.
-  ///
-  /// The days are arranged in a rectangular grid with one column for each day of
-  /// the week.
   DaysView({
     super.key,
     required this.currentDate,
@@ -38,101 +30,38 @@ class DaysView extends StatelessWidget {
   })  : assert(!minDate.isAfter(maxDate), "minDate can't be after maxDate"),
         assert(() {
           if (selectedDate == null) return true;
-          return (selectedDate.isAfter(minDate) ||
-                  selectedDate.isAtSameMomentAs(minDate)) &&
-              (selectedDate.isBefore(maxDate) ||
-                  selectedDate.isAtSameMomentAs(maxDate));
+          return (selectedDate.isAfter(minDate) || selectedDate.isAtSameMomentAs(minDate)) &&
+              (selectedDate.isBefore(maxDate) || selectedDate.isAtSameMomentAs(maxDate));
         }(), "selected date should be in the range of min date & max date");
 
-  /// The currently selected date.
-  ///
-  /// This date is highlighted in the picker.
   final DateTime? selectedDate;
-
-  /// The current date at the time the picker is displayed.
-  /// In other words, the day to be considered as today.
   final DateTime currentDate;
-
-  /// Called when the user picks a day.
   final ValueChanged<DateTime> onChanged;
-
-  /// The earliest date the user is permitted to pick.
-  ///
-  /// This date must be on or before the [maxDate].
   final DateTime minDate;
-
-  /// The latest date the user is permitted to pick.
-  ///
-  /// This date must be on or after the [minDate].
   final DateTime maxDate;
-
-  /// The month whose days are displayed by this picker.
   final DateTime displayedMonth;
-
-  /// The text style of the days name.
   final TextStyle daysOfTheWeekTextStyle;
-
-  /// The text style of days which are selectable.
   final TextStyle enabledCellsTextStyle;
-
-  /// The cell decoration of days which are selectable.
   final BoxDecoration enabledCellsDecoration;
-
-  /// The text style of days which are not selectable.
   final TextStyle disbaledCellsTextStyle;
-
-  /// The cell decoration of days which are not selectable.
   final BoxDecoration disbaledCellsDecoration;
-
-  /// The text style of the current day
   final TextStyle currentDateTextStyle;
-
-  /// The cell decoration of the current day.
   final BoxDecoration currentDateDecoration;
-
-  /// The text style of selected day.
   final TextStyle selectedDayTextStyle;
-
-  /// The cell decoration of selected day.
   final BoxDecoration selectedDayDecoration;
-
-  /// The splash color of the ink response.
   final Color splashColor;
-
-  /// The highlight color of the ink response when pressed.
   final Color highlightColor;
-
-  /// The radius of the ink splash.
   final double? splashRadius;
 
-  /// Builds widgets showing abbreviated days of week. The first widget in the
-  /// returned list corresponds to the first day of week for the current locale.
-  ///
-  /// Examples:
-  ///
-  ///     ┌ Sunday is the first day of week in the US (en_US)
-  ///     |
-  ///     S M T W T F S  ← the returned list contains these widgets
-  ///     _ _ _ _ _ 1 2
-  ///     3 4 5 6 7 8 9
-  ///
-  ///     ┌ But it's Monday in the UK (en_GB)
-  ///     |
-  ///     M T W T F S S  ← the returned list contains these widgets
-  ///     _ _ _ _ 1 2 3
-  ///     4 5 6 7 8 9 10
-  ///
   List<Widget> _dayHeaders(
     TextStyle headerStyle,
     Locale locale,
     MaterialLocalizations localizations,
   ) {
     final List<Widget> result = <Widget>[];
-    final weekdayNames =
-        intl.DateFormat('', locale.toString()).dateSymbols.SHORTWEEKDAYS;
+    final weekdayNames = intl.DateFormat('', locale.toString()).dateSymbols.SHORTWEEKDAYS;
 
     for (int i = localizations.firstDayOfWeekIndex; true; i = (i + 1) % 7) {
-      // to save space in arabic as arabic don't has short week days.
       final String weekday = weekdayNames[i].replaceFirst('ال', '');
       result.add(
         ExcludeSemantics(
@@ -153,11 +82,7 @@ class DaysView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
-    //
-    //
-    //
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
 
     final int year = displayedMonth.year;
     final int month = displayedMonth.month;
@@ -177,27 +102,19 @@ class DaysView extends StatelessWidget {
         dayItems.add(const SizedBox.shrink());
       } else {
         final DateTime dayToBuild = DateTime(year, month, day);
-        final bool isDisabled =
-            dayToBuild.isAfter(maxDate) || dayToBuild.isBefore(minDate);
-        final bool isSelectedDay =
-            DateUtils.isSameDay(selectedDate, dayToBuild);
+        final bool isDisabled = dayToBuild.isAfter(maxDate) || dayToBuild.isBefore(minDate);
+        final bool isSelectedDay = DateUtils.isSameDay(selectedDate, dayToBuild);
 
         final bool isCurrent = DateUtils.isSameDay(currentDate, dayToBuild);
-        //
-        //
         BoxDecoration decoration = enabledCellsDecoration;
         TextStyle style = enabledCellsTextStyle;
 
         if (isCurrent) {
-          //
-          //
           style = currentDateTextStyle;
           decoration = currentDateDecoration;
         }
 
         if (isSelectedDay) {
-          //
-          //
           style = selectedDayTextStyle;
           decoration = selectedDayDecoration;
         }
@@ -208,8 +125,6 @@ class DaysView extends StatelessWidget {
         }
 
         if (isCurrent && isDisabled) {
-          //
-          //
           style = disbaledCellsTextStyle;
           decoration = currentDateDecoration;
         }
@@ -235,14 +150,7 @@ class DaysView extends StatelessWidget {
             splashColor: splashColor,
             highlightColor: highlightColor,
             child: Semantics(
-              // We want the day of month to be spoken first irrespective of the
-              // locale-specific preferences or TextDirection. This is because
-              // an accessibility user is more likely to be interested in the
-              // day of month before the rest of the date, as they are looking
-              // for the day of month. To do that we prepend day of month to the
-              // formatted full date.
-              label:
-                  '${localizations.formatDecimal(day)}, ${localizations.formatFullDate(dayToBuild)}',
+              label: '${localizations.formatDecimal(day)}, ${localizations.formatFullDate(dayToBuild)}',
               selected: isSelectedDay,
               excludeSemantics: true,
               child: dayWidget,

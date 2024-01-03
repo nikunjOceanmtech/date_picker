@@ -1,9 +1,10 @@
+import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../shared/header.dart';
 import 'range_days_view.dart';
 
-/// A scrollable grid of months to allow picking a day range.
 class RangeDaysPicker extends StatefulWidget {
   RangeDaysPicker({
     super.key,
@@ -33,6 +34,16 @@ class RangeDaysPicker extends StatefulWidget {
     this.highlightColor,
     this.splashColor,
     this.splashRadius,
+    this.applyButtonTextStyle,
+    this.applyButtonBoxDecoration,
+    this.cancelButtonBoxDecoration,
+    this.cancelButtonTextStyle,
+    this.twoButtonCenterSpace,
+    this.calcelButtonText,
+    this.okButtonText,
+    this.applyButtonColor,
+    this.cancelButtonColor,
+    this.onRangeSelected,
   }) {
     assert(!minDate.isAfter(maxDate), "minDate can't be after maxDate");
 
@@ -59,124 +70,42 @@ class RangeDaysPicker extends StatefulWidget {
     );
   }
 
-  /// The date which will be displayed on first opening.
-  /// If not specified, the picker will default to `DateTime.now()` date.
   final DateTime? initialDate;
-
-  /// The date to which the picker will consider as current date. e.g (today).
-  /// If not specified, the picker will default to `DateTime.now()` date.
   final DateTime? currentDate;
-
-  /// The currently selected start date.
-  ///
-  /// This date is highlighted in the picker.
   final DateTime? selectedStartDate;
-
-  /// The currently selected end date.
-  ///
-  /// This date is highlighted in the picker.
   final DateTime? selectedEndDate;
-
-  /// Called when the user picks a start date.
   final ValueChanged<DateTime>? onStartDateChanged;
-
-  /// Called when the user picks an end date.
   final ValueChanged<DateTime>? onEndDateChanged;
-
-  /// The earliest date the user is permitted to pick.
-  ///
-  /// This date must be on or before the [maxDate].
   final DateTime minDate;
-
-  /// The latest date the user is permitted to pick.
-  ///
-  /// This date must be on or after the [minDate].
   final DateTime maxDate;
-
-  /// Called when the user tap on the leading date.
   final VoidCallback? onLeadingDateTap;
-
-  /// The text style of the days of the week in the header.
-  ///
-  /// defaults to [TextTheme.titleSmall] with a [FontWeight.bold],
-  /// a `14` font size, and a [ColorScheme.onSurface] with 30% opacity.
   final TextStyle? daysOfTheWeekTextStyle;
-
-  /// The text style of cells which are selectable.
-  ///
-  /// defaults to [TextTheme.titleLarge] with a [FontWeight.normal]
-  /// and [ColorScheme.onSurface] color.
   final TextStyle? enabledCellsTextStyle;
-
-  /// The cell decoration of cells which are selectable.
-  ///
-  /// defaults to empty [BoxDecoration].
   final BoxDecoration enabledCellsDecoration;
-
-  /// The text style of cells which are not selectable.
-  ///
-  /// defaults to [TextTheme.titleLarge] with a [FontWeight.normal]
-  /// and [ColorScheme.onSurface] color with 30% opacity.
   final TextStyle? disbaledCellsTextStyle;
-
-  /// The cell decoration of cells which are not selectable.
-  ///
-  /// defaults to empty [BoxDecoration].
   final BoxDecoration disbaledCellsDecoration;
-
-  /// The text style of the current date.
-  ///
-  /// defaults to [TextTheme.titleLarge] with a [FontWeight.normal]
-  /// and [ColorScheme.primary] color.
   final TextStyle? currentDateTextStyle;
-
-  /// The cell decoration of the current date.
-  ///
-  /// defaults to circle stroke border with [ColorScheme.primary] color.
   final BoxDecoration? currentDateDecoration;
-
   final TextStyle? selectedCellsTextStyle;
-
   final BoxDecoration? selectedCellsDecoration;
-
-  /// The text style of a single selected cell and the
-  /// leading/trailing cell of a selected range.
   final TextStyle? singelSelectedCellTextStyle;
-
-  /// The cell decoration of a single selected cell and the
-  /// leading/trailing cell of a selected range.
   final BoxDecoration? singelSelectedCellDecoration;
-
-  /// The text style of leading date showing in the header.
-  ///
-  /// defaults to `18px` with a [FontWeight.bold]
-  /// and [ColorScheme.primary] color.
   final TextStyle? leadingDateTextStyle;
-
-  /// The color of the page sliders.
-  ///
-  /// defaults to [ColorScheme.primary] color.
   final Color? slidersColor;
-
-  /// The size of the page sliders.
-  ///
-  /// defaults to `20px`.
   final double? slidersSize;
-
-  /// The splash color of the ink response.
-  ///
-  /// defaults to the color of [selectedCellDecoration] with 30% opacity,
-  /// if [selectedCellDecoration] is null will fall back to
-  /// [ColorScheme.onPrimary] with 30% opacity.
   final Color? splashColor;
-
-  /// The highlight color of the ink response when pressed.
-  ///
-  /// defaults to [Theme.highlightColor].
   final Color? highlightColor;
-
-  /// The radius of the ink splash.
   final double? splashRadius;
+  final TextStyle? applyButtonTextStyle;
+  final BoxDecoration? applyButtonBoxDecoration;
+  final TextStyle? cancelButtonTextStyle;
+  final BoxDecoration? cancelButtonBoxDecoration;
+  final double? twoButtonCenterSpace;
+  final String? calcelButtonText;
+  final String? okButtonText;
+  final Color? applyButtonColor;
+  final Color? cancelButtonColor;
+  final ValueChanged<DateTimeRange>? onRangeSelected;
 
   @override
   State<RangeDaysPicker> createState() => __RangeDaysPickerState();
@@ -186,10 +115,6 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
   DateTime? _displayedMonth;
   final GlobalKey _pageViewKey = GlobalKey();
   late final PageController _pageController;
-  // Represents the maximum height for a calendar with 6 weeks.
-  // In scenarios where a month starts on the last day of a week,
-  // it may extend into the first day of the sixth week to
-  // accommodate the full month.
   double maxHeight = 52 * 7;
 
   @override
@@ -203,13 +128,8 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
 
   @override
   void didUpdateWidget(covariant RangeDaysPicker oldWidget) {
-    // there is no need to check for the displayed month because it changes via
-    // page view and not the initial date.
-    // but for makeing debuging easy, we will navigate to the initial date again
-    // if it changes.
     if (oldWidget.initialDate != widget.initialDate) {
-      _displayedMonth =
-          widget.initialDate ?? DateUtils.dateOnly(DateTime.now());
+      _displayedMonth = widget.initialDate ?? DateUtils.dateOnly(DateTime.now());
       _pageController.jumpToPage(
         DateUtils.monthDelta(widget.minDate, _displayedMonth!),
       );
@@ -228,21 +148,12 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    //
-    //! days of the week
-    //
-    //
     final TextStyle daysOfTheWeekTextStyle = widget.daysOfTheWeekTextStyle ??
         textTheme.titleSmall!.copyWith(
           color: colorScheme.onSurface.withOpacity(0.30),
           fontWeight: FontWeight.bold,
           fontSize: 14,
         );
-
-    //
-    //! enabled
-    //
-    //
 
     final TextStyle enabledCellsTextStyle = widget.enabledCellsTextStyle ??
         textTheme.titleLarge!.copyWith(
@@ -252,24 +163,14 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
 
     final BoxDecoration enabledCellsDecoration = widget.enabledCellsDecoration;
 
-    //
-    //! disabled
-    //
-    //
-
     final TextStyle disbaledCellsTextStyle = widget.disbaledCellsTextStyle ??
         textTheme.titleLarge!.copyWith(
           fontWeight: FontWeight.normal,
           color: colorScheme.onSurface.withOpacity(0.30),
         );
 
-    final BoxDecoration disbaledCellsDecoration =
-        widget.disbaledCellsDecoration;
+    final BoxDecoration disbaledCellsDecoration = widget.disbaledCellsDecoration;
 
-    //
-    //! current
-    //
-    //
     final TextStyle currentDateTextStyle = widget.currentDateTextStyle ??
         textTheme.titleLarge!.copyWith(
           fontWeight: FontWeight.normal,
@@ -282,45 +183,30 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
           shape: BoxShape.circle,
         );
 
-    //
-    //! selected.
-    //
-    //
-
     final TextStyle selectedCellsTextStyle = widget.selectedCellsTextStyle ??
         textTheme.titleLarge!.copyWith(
           fontWeight: FontWeight.normal,
           color: colorScheme.onPrimaryContainer,
         );
 
-    final BoxDecoration selectedCellsDecoration =
-        widget.selectedCellsDecoration ??
-            BoxDecoration(
-              color: colorScheme.primaryContainer,
-              shape: BoxShape.rectangle,
-            );
+    final BoxDecoration selectedCellsDecoration = widget.selectedCellsDecoration ??
+        BoxDecoration(
+          color: colorScheme.primaryContainer,
+          shape: BoxShape.rectangle,
+        );
 
-    //
-    //! singel
+    final TextStyle singelSelectedCellTextStyle = widget.singelSelectedCellTextStyle ??
+        textTheme.titleLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          color: colorScheme.onPrimary,
+        );
 
-    final TextStyle singelSelectedCellTextStyle =
-        widget.singelSelectedCellTextStyle ??
-            textTheme.titleLarge!.copyWith(
-              fontWeight: FontWeight.normal,
-              color: colorScheme.onPrimary,
-            );
+    final BoxDecoration singelSelectedCellDecoration = widget.singelSelectedCellDecoration ??
+        BoxDecoration(
+          color: colorScheme.primary,
+          shape: BoxShape.circle,
+        );
 
-    final BoxDecoration singelSelectedCellDecoration =
-        widget.singelSelectedCellDecoration ??
-            BoxDecoration(
-              color: colorScheme.primary,
-              shape: BoxShape.circle,
-            );
-
-    //
-    //
-    //
-    //! header
     final leadingDateTextStyle = widget.leadingDateTextStyle ??
         TextStyle(
           fontSize: 18,
@@ -330,17 +216,11 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
 
     final slidersColor = widget.slidersColor ?? colorScheme.primary;
     final slidersSize = widget.slidersSize ?? 20;
+    final splashColor =
+        widget.splashColor ?? selectedCellsDecoration.color?.withOpacity(0.3) ?? colorScheme.primary.withOpacity(0.3);
 
-    //
-    //! splash
-    final splashColor = widget.splashColor ??
-        selectedCellsDecoration.color?.withOpacity(0.3) ??
-        colorScheme.primary.withOpacity(0.3);
-
-    final highlightColor =
-        widget.highlightColor ?? Theme.of(context).highlightColor;
-    //
-    //
+    final highlightColor = widget.highlightColor ?? Theme.of(context).highlightColor;
+    String weekdayName = DateFormat('EEEE').format(_displayedMonth!);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -378,29 +258,30 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
         ),
         const SizedBox(height: 10),
         AnimatedContainer(
+          height: weekdayName == "Saturday" ||
+                  (weekdayName == "Friday" &&
+                      getDaysInMonth(year: _displayedMonth!.year, month: _displayedMonth!.month) == 31)
+              ? 370
+              : 320,
           duration: const Duration(milliseconds: 200),
-          height: maxHeight,
+          constraints: const BoxConstraints(maxHeight: 370, minHeight: 100),
           child: PageView.builder(
             scrollDirection: Axis.horizontal,
             key: _pageViewKey,
             controller: _pageController,
             itemCount: DateUtils.monthDelta(widget.minDate, widget.maxDate) + 1,
             onPageChanged: (monthPage) {
-              final DateTime monthDate =
-                  DateUtils.addMonthsToMonthDate(widget.minDate, monthPage);
+              final DateTime monthDate = DateUtils.addMonthsToMonthDate(widget.minDate, monthPage);
 
               setState(() {
                 _displayedMonth = monthDate;
               });
             },
             itemBuilder: (context, index) {
-              final DateTime month =
-                  DateUtils.addMonthsToMonthDate(widget.minDate, index);
-
+              final DateTime month = DateUtils.addMonthsToMonthDate(widget.minDate, index);
               return RangeDaysView(
                 key: ValueKey<DateTime>(month),
-                currentDate:
-                    widget.currentDate ?? DateUtils.dateOnly(DateTime.now()),
+                currentDate: widget.currentDate ?? DateUtils.dateOnly(DateTime.now()),
                 minDate: widget.minDate,
                 maxDate: widget.maxDate,
                 displayedMonth: month,
@@ -420,15 +301,73 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
                 highlightColor: highlightColor,
                 splashColor: splashColor,
                 splashRadius: widget.splashRadius,
-                onEndDateChanged: (value) =>
-                    widget.onEndDateChanged?.call(value),
-                onStartDateChanged: (value) =>
-                    widget.onStartDateChanged?.call(value),
+                onEndDateChanged: (value) => widget.onEndDateChanged?.call(value),
+                onStartDateChanged: (value) => widget.onStartDateChanged?.call(value),
               );
             },
           ),
         ),
+        Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: widget.cancelButtonColor ?? const Color(0xffFFDDC0),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "Cancel",
+                    style: widget.cancelButtonTextStyle ??
+                        const TextStyle(
+                          color: Color(0xffB75400),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: widget.twoButtonCenterSpace ?? 10),
+            Expanded(
+              child: InkWell(
+                onTap: () => Navigator.pop(context, DateTimeRange(start: startingDate!, end: endingDate!)),
+                child: Container(
+                  height: 50,
+                  decoration: widget.cancelButtonBoxDecoration ??
+                      BoxDecoration(
+                        color: widget.applyButtonColor ?? const Color(0xffB75400),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Apply",
+                    style: widget.applyButtonTextStyle ??
+                        const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )
       ],
     );
   }
+}
+
+int getDaysInMonth({required int year, required int month}) {
+  if (month == DateTime.february) {
+    final bool isLeapYear = (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
+    return isLeapYear ? 29 : 28;
+  }
+  const List<int> daysInMonth = [31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+  return daysInMonth[month - 1];
 }

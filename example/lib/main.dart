@@ -28,10 +28,48 @@ class MyApp extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  RangeDatePicker(
-                    minDate: DateTime(2020, 10, 10),
-                    maxDate: DateTime(2024, 10, 30),
+                  // RangeDatePicker(
+                  //   daysOfTheWeekTextStyle: TextStyle(
+                  //     color: Colors.green,
+                  //   ),
+                  //   // onRangeSelected: (Date) {
+                  //   //   print(Date);
+                  //   // },
+                  //   currentDateDecoration: BoxDecoration(
+                  //     border: Border.all(),
+                  //     shape: BoxShape.circle,
+                  //   ),
+                  //   minDate: DateTime(2020, 10, 10),
+                  //   maxDate: DateTime(2024, 10, 30),
+                  // ),
+                  // DatePicker(
+                  //   minDate: DateTime(1000),
+                  //   maxDate: DateTime(2025),
+                  // ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      DateTimeRange? dates = await showRangePickerDialog(
+                        maxDate: DateTime(2025),
+                        context: context,
+                        minDate: DateTime(2000),
+                      );
+                      if (dates != null) {
+                        print(dates);
+                      }
+                    },
+                    child: const Text("Range Picker Dialog  "),
                   ),
+                  // ElevatedButton(
+                  //   onPressed: () async {
+                  //     showDatePickerDialog(
+                  //       maxDate: DateTime(2025),
+                  //       context: context,
+                  //       minDate: DateTime(2000),
+                  //     );
+                  //     // print(date);
+                  //   },
+                  //   child: const Text("Range Picker Dialog  "),
+                  // ),
                 ],
               ),
             ),
