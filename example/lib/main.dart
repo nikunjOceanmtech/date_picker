@@ -59,17 +59,17 @@ class MyApp extends StatelessWidget {
                     },
                     child: const Text("Range Picker Dialog  "),
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () async {
-                  //     showDatePickerDialog(
-                  //       maxDate: DateTime(2025),
-                  //       context: context,
-                  //       minDate: DateTime(2000),
-                  //     );
-                  //     // print(date);
-                  //   },
-                  //   child: const Text("Range Picker Dialog  "),
-                  // ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      showDatePickerDialog(
+                        maxDate: DateTime(2025),
+                        context: context,
+                        minDate: DateTime(2000),
+                      );
+                      // print(date);
+                    },
+                    child: const Text("Range Picker Dialog  "),
+                  ),
                 ],
               ),
             ),
