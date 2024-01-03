@@ -172,10 +172,10 @@ class _DaysPickerState extends State<DaysPicker> {
           shape: BoxShape.circle,
         );
     final leadingDateTextStyle = widget.leadingDateTextStyle ??
-        TextStyle(
+        const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: colorScheme.primary,
+          color: Colors.black,
         );
 
     final slidersColor = widget.slidersColor ?? colorScheme.primary;

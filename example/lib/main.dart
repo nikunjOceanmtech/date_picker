@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () async {
                       DateTimeRange? dates = await showRangePickerDialog(
+                        leadingDateTextStyle: TextStyle(),
                         maxDate: DateTime(2025),
                         context: context,
                         minDate: DateTime(2000),
