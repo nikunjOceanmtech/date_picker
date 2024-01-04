@@ -47,6 +47,10 @@ Future<DateTimeRange?> showRangePickerDialog({
   String? okButtonText,
   Color? applyButtonColor,
   Color? cancelButtonColor,
+  Color? themeColor,
+  Color? defaultColor,
+  Color? cancelTextColor,
+  Color? applyTextColor,
 }) async {
   return showDialog(
     context: context,
@@ -99,6 +103,10 @@ Future<DateTimeRange?> showRangePickerDialog({
             highlightColor: highlightColor,
             splashColor: splashColor,
             splashRadius: splashRadius,
+            themeColor: themeColor,
+            defaultColor: defaultColor,
+            cancelTextColor: cancelTextColor,
+            applyTextColor: applyTextColor,
           ),
         ),
       );

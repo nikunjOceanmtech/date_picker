@@ -31,6 +31,7 @@ class DatePicker extends StatefulWidget {
     this.highlightColor,
     this.splashColor,
     this.splashRadius,
+    this.themeColor,
   }) {
     assert(
       !maxDate.isBefore(minDate),
@@ -61,6 +62,7 @@ class DatePicker extends StatefulWidget {
   final Color? splashColor;
   final Color? highlightColor;
   final double? splashRadius;
+  final Color? themeColor;
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -70,7 +72,9 @@ class _DatePickerState extends State<DatePicker> {
   PickerType? _pickerType;
   DateTime? _displayedDate;
   DateTime? _selectedDate;
-
+  Color defaultTextColor = const Color.fromRGBO(183, 84, 0, 1);
+  Color disabledDayColor = const Color.fromRGBO(34, 34, 34, 1);
+  Color disabledDayColor1 = Colors.black54;
   @override
   void initState() {
     _displayedDate = widget.initialDate ?? DateUtils.dateOnly(DateTime.now());
@@ -106,18 +110,26 @@ class _DatePickerState extends State<DatePicker> {
             currentDate: widget.currentDate,
             maxDate: widget.maxDate,
             minDate: widget.minDate,
-            daysOfTheWeekTextStyle: widget.daysOfTheWeekTextStyle,
-            enabledCellsTextStyle: widget.enabledCellsTextStyle,
+            daysOfTheWeekTextStyle: widget.daysOfTheWeekTextStyle ??
+                TextStyle(color: widget.themeColor ?? defaultTextColor, fontSize: 14, fontWeight: FontWeight.w500),
+            enabledCellsTextStyle: widget.enabledCellsTextStyle ??
+                const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
             enabledCellsDecoration: widget.enabledCellsDecoration,
-            disbaledCellsTextStyle: widget.disbaledCellsTextStyle,
+            disbaledCellsTextStyle: widget.disbaledCellsTextStyle ??
+                TextStyle(color: disabledDayColor1, fontSize: 15, fontWeight: FontWeight.normal),
             disbaledCellsDecoration: widget.disbaledCellsDecoration,
-            currentDateDecoration: widget.currentDateDecoration,
-            currentDateTextStyle: widget.currentDateTextStyle,
-            selectedCellDecoration: widget.selectedCellDecoration,
-            selectedCellTextStyle: widget.selectedCellTextStyle,
-            slidersColor: widget.slidersColor,
-            slidersSize: widget.slidersSize,
-            leadingDateTextStyle: widget.leadingDateTextStyle,
+            currentDateDecoration: widget.currentDateDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            currentDateTextStyle: widget.currentDateTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
+            selectedCellDecoration: widget.selectedCellDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            selectedCellTextStyle: widget.selectedCellTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
+            slidersColor: widget.slidersColor ?? widget.themeColor ?? defaultTextColor,
+            slidersSize: widget.slidersSize,  
+            leadingDateTextStyle: widget.leadingDateTextStyle ??
+                TextStyle(color: disabledDayColor, fontSize: 18, fontWeight: FontWeight.bold),
             splashColor: widget.splashColor,
             highlightColor: widget.highlightColor,
             splashRadius: widget.splashRadius,
@@ -144,17 +156,24 @@ class _DatePickerState extends State<DatePicker> {
             currentDate: widget.currentDate,
             maxDate: widget.maxDate,
             minDate: widget.minDate,
-            currentDateDecoration: widget.currentDateDecoration,
-            currentDateTextStyle: widget.currentDateTextStyle,
+            currentDateDecoration: widget.currentDateDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            currentDateTextStyle: widget.currentDateTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
             disbaledCellsDecoration: widget.disbaledCellsDecoration,
-            disbaledCellsTextStyle: widget.disbaledCellsTextStyle,
+            disbaledCellsTextStyle: widget.disbaledCellsTextStyle ??
+                TextStyle(color: disabledDayColor1, fontSize: 15, fontWeight: FontWeight.normal),
             enabledCellsDecoration: widget.enabledCellsDecoration,
-            enabledCellsTextStyle: widget.enabledCellsTextStyle,
-            selectedCellDecoration: widget.selectedCellDecoration,
-            selectedCellTextStyle: widget.selectedCellTextStyle,
-            slidersColor: widget.slidersColor,
+            enabledCellsTextStyle: widget.enabledCellsTextStyle ??
+                const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
+            selectedCellDecoration: widget.selectedCellDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            selectedCellTextStyle: widget.selectedCellTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
+            slidersColor: widget.slidersColor ?? widget.themeColor ?? defaultTextColor,
             slidersSize: widget.slidersSize,
-            leadingDateTextStyle: widget.leadingDateTextStyle,
+            leadingDateTextStyle: widget.leadingDateTextStyle ??
+                TextStyle(color: disabledDayColor, fontSize: 18, fontWeight: FontWeight.bold),
             splashColor: widget.splashColor,
             highlightColor: widget.highlightColor,
             splashRadius: widget.splashRadius,
@@ -180,17 +199,24 @@ class _DatePickerState extends State<DatePicker> {
             currentDate: widget.currentDate,
             maxDate: widget.maxDate,
             minDate: widget.minDate,
-            currentDateDecoration: widget.currentDateDecoration,
-            currentDateTextStyle: widget.currentDateTextStyle,
+            currentDateDecoration: widget.currentDateDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            currentDateTextStyle: widget.currentDateTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
             disbaledCellsDecoration: widget.disbaledCellsDecoration,
-            disbaledCellsTextStyle: widget.disbaledCellsTextStyle,
+            disbaledCellsTextStyle: widget.disbaledCellsTextStyle ??
+                TextStyle(color: disabledDayColor1, fontSize: 15, fontWeight: FontWeight.normal),
             enabledCellsDecoration: widget.enabledCellsDecoration,
-            enabledCellsTextStyle: widget.enabledCellsTextStyle,
-            selectedCellDecoration: widget.selectedCellDecoration,
-            selectedCellTextStyle: widget.selectedCellTextStyle,
-            slidersColor: widget.slidersColor,
+            enabledCellsTextStyle: widget.enabledCellsTextStyle ??
+                const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
+            selectedCellDecoration: widget.selectedCellDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            selectedCellTextStyle: widget.selectedCellTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
+            slidersColor: widget.slidersColor ?? widget.themeColor ?? defaultTextColor,
             slidersSize: widget.slidersSize,
-            leadingDateTextStyle: widget.leadingDateTextStyle,
+            leadingDateTextStyle: widget.leadingDateTextStyle ??
+                TextStyle(color: disabledDayColor, fontSize: 18, fontWeight: FontWeight.bold),
             splashColor: widget.splashColor,
             highlightColor: widget.highlightColor,
             splashRadius: widget.splashRadius,

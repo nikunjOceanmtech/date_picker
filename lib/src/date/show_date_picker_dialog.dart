@@ -36,6 +36,7 @@ Future<DateTime?> showDatePickerDialog({
   Color? splashColor,
   double? splashRadius,
   Color? backgroundColor,
+  Color? themeColor
 }) async {
   return showDialog(
     context: context,
@@ -77,6 +78,7 @@ Future<DateTime?> showDatePickerDialog({
             highlightColor: highlightColor,
             splashColor: splashColor,
             splashRadius: splashRadius,
+            themeColor: themeColor,
           ),
         ),
       );

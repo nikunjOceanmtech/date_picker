@@ -42,6 +42,10 @@ class RangeDatePicker extends StatefulWidget {
     this.okButtonText,
     this.applyButtonColor,
     this.cancelButtonColor,
+    this.themeColor,
+    this.defaultColor,
+    this.cancelTextColor,
+    this.applyTextColor,
   }) {
     assert(
       !maxDate.isBefore(minDate),
@@ -83,6 +87,10 @@ class RangeDatePicker extends StatefulWidget {
   final String? okButtonText;
   final Color? applyButtonColor;
   final Color? cancelButtonColor;
+  final Color? themeColor;
+  final Color? defaultColor;
+  final Color? cancelTextColor;
+  final Color? applyTextColor;
 
   @override
   State<RangeDatePicker> createState() => _RangeDatePickerState();
@@ -93,6 +101,9 @@ class _RangeDatePickerState extends State<RangeDatePicker> {
   DateTime? _diplayedDate;
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
+  Color defaultTextColor = const Color.fromRGBO(183, 84, 0, 1);
+  Color disabledDayColor = const Color.fromRGBO(34, 34, 34, 1);
+  Color disabledDayColor1 = Colors.black54;
 
   @override
   void initState() {
@@ -131,35 +142,59 @@ class _RangeDatePickerState extends State<RangeDatePicker> {
         return Padding(
           padding: widget.padding,
           child: RangeDaysPicker(
-            applyButtonTextStyle: widget.applyButtonTextStyle,
-            applyButtonBoxDecoration: widget.applyButtonBoxDecoration,
-            cancelButtonTextStyle: widget.cancelButtonTextStyle,
-            cancelButtonBoxDecoration: widget.cancelButtonBoxDecoration,
+            applyButtonTextStyle: widget.applyButtonTextStyle ??
+                TextStyle(color: widget.applyTextColor ?? Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+            applyButtonBoxDecoration: widget.applyButtonBoxDecoration ??
+                BoxDecoration(
+                    color: widget.applyButtonColor ?? widget.themeColor ?? defaultTextColor,
+                    borderRadius: BorderRadius.circular(10)),
+            cancelButtonTextStyle: widget.cancelButtonTextStyle ??
+                TextStyle(
+                  color: widget.cancelTextColor ?? defaultTextColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+            cancelButtonBoxDecoration: widget.cancelButtonBoxDecoration ??
+                BoxDecoration(
+                  color: widget.cancelButtonColor ?? widget.defaultColor ?? const Color(0xffFFDDC0),
+                  borderRadius: BorderRadius.circular(10),
+                ),
             twoButtonCenterSpace: widget.twoButtonCenterSpace,
             calcelButtonText: widget.calcelButtonText,
             okButtonText: widget.okButtonText,
-            applyButtonColor: widget.applyButtonColor,
-            cancelButtonColor: widget.cancelButtonColor,
+            applyButtonColor: widget.applyButtonColor ?? defaultTextColor,
+            cancelButtonColor:
+                widget.cancelButtonColor ?? widget.defaultColor ?? const Color.fromRGBO(255, 231, 210, 1),
             currentDate: widget.currentDate ?? DateUtils.dateOnly(DateTime.now()),
             initialDate: _diplayedDate!,
             selectedEndDate: _selectedEndDate,
             selectedStartDate: _selectedStartDate,
             maxDate: widget.maxDate,
             minDate: widget.minDate,
-            daysOfTheWeekTextStyle: widget.daysOfTheWeekTextStyle,
-            enabledCellsTextStyle: widget.enabledCellsTextStyle,
+            daysOfTheWeekTextStyle: widget.daysOfTheWeekTextStyle ??
+                TextStyle(color: widget.themeColor ?? defaultTextColor, fontSize: 14, fontWeight: FontWeight.w500),
+            enabledCellsTextStyle: widget.enabledCellsTextStyle ??
+                const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
             enabledCellsDecoration: widget.enabledCellsDecoration,
-            disbaledCellsTextStyle: widget.disbaledCellsTextStyle,
+            disbaledCellsTextStyle: widget.disbaledCellsTextStyle ??
+                TextStyle(color: disabledDayColor1, fontSize: 15, fontWeight: FontWeight.normal),
             disbaledCellsDecoration: widget.disbaledCellsDecoration,
-            currentDateDecoration: widget.currentDateDecoration,
-            currentDateTextStyle: widget.currentDateTextStyle,
-            selectedCellsDecoration: widget.selectedCellsDecoration,
-            selectedCellsTextStyle: widget.selectedCellsTextStyle,
-            singelSelectedCellTextStyle: widget.singelSelectedCellTextStyle,
-            singelSelectedCellDecoration: widget.singelSelectedCellDecoration,
-            slidersColor: widget.slidersColor,
+            currentDateDecoration: widget.currentDateDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            currentDateTextStyle: widget.currentDateTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
+            selectedCellsDecoration: widget.selectedCellsDecoration ??
+                BoxDecoration(color: widget.defaultColor ?? const Color.fromRGBO(255, 236, 220, 1)),
+            selectedCellsTextStyle: widget.selectedCellsTextStyle ??
+                const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
+            singelSelectedCellTextStyle: widget.singelSelectedCellTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
+            singelSelectedCellDecoration: widget.singelSelectedCellDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            slidersColor: widget.slidersColor ?? widget.themeColor ?? defaultTextColor,
             slidersSize: widget.slidersSize,
-            leadingDateTextStyle: widget.leadingDateTextStyle,
+            leadingDateTextStyle: widget.leadingDateTextStyle ??
+                TextStyle(color: disabledDayColor, fontSize: 18, fontWeight: FontWeight.bold),
             splashColor: widget.splashColor,
             highlightColor: widget.highlightColor,
             splashRadius: widget.splashRadius,
@@ -196,17 +231,24 @@ class _RangeDatePickerState extends State<RangeDatePicker> {
             maxDate: widget.maxDate,
             minDate: widget.minDate,
             currentDate: widget.currentDate,
-            currentDateDecoration: widget.currentDateDecoration,
-            currentDateTextStyle: widget.currentDateTextStyle,
+            currentDateDecoration: widget.currentDateDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            currentDateTextStyle: widget.currentDateTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
             disbaledCellsDecoration: widget.disbaledCellsDecoration,
-            disbaledCellsTextStyle: widget.disbaledCellsTextStyle,
+            disbaledCellsTextStyle: widget.disbaledCellsTextStyle ??
+                TextStyle(color: disabledDayColor1, fontSize: 15, fontWeight: FontWeight.normal),
             enabledCellsDecoration: widget.enabledCellsDecoration,
-            enabledCellsTextStyle: widget.enabledCellsTextStyle,
-            selectedCellDecoration: widget.singelSelectedCellDecoration,
-            selectedCellTextStyle: widget.singelSelectedCellTextStyle,
-            slidersColor: widget.slidersColor,
+            enabledCellsTextStyle: widget.enabledCellsTextStyle ??
+                const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
+            selectedCellDecoration: widget.singelSelectedCellDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            selectedCellTextStyle: widget.singelSelectedCellTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
+            slidersColor: widget.slidersColor ?? widget.themeColor ?? defaultTextColor,
             slidersSize: widget.slidersSize,
-            leadingDateTextStyle: widget.leadingDateTextStyle,
+            leadingDateTextStyle: widget.leadingDateTextStyle ??
+                TextStyle(color: disabledDayColor, fontSize: 18, fontWeight: FontWeight.bold),
             splashColor: widget.splashColor,
             highlightColor: widget.highlightColor,
             splashRadius: widget.splashRadius,
@@ -232,17 +274,24 @@ class _RangeDatePickerState extends State<RangeDatePicker> {
             maxDate: widget.maxDate,
             minDate: widget.minDate,
             currentDate: widget.currentDate,
-            currentDateDecoration: widget.currentDateDecoration,
-            currentDateTextStyle: widget.currentDateTextStyle,
+            currentDateDecoration: widget.currentDateDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            currentDateTextStyle: widget.currentDateTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
             disbaledCellsDecoration: widget.disbaledCellsDecoration,
-            disbaledCellsTextStyle: widget.disbaledCellsTextStyle,
+            disbaledCellsTextStyle: widget.disbaledCellsTextStyle ??
+                TextStyle(color: disabledDayColor1, fontSize: 15, fontWeight: FontWeight.normal),
             enabledCellsDecoration: widget.enabledCellsDecoration,
-            enabledCellsTextStyle: widget.enabledCellsTextStyle,
-            selectedCellDecoration: widget.singelSelectedCellDecoration,
-            selectedCellTextStyle: widget.singelSelectedCellTextStyle,
-            slidersColor: widget.slidersColor,
+            enabledCellsTextStyle: widget.enabledCellsTextStyle ??
+                const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
+            selectedCellDecoration: widget.singelSelectedCellDecoration ??
+                BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
+            selectedCellTextStyle: widget.singelSelectedCellTextStyle ??
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
+            slidersColor: widget.slidersColor ?? widget.themeColor ?? defaultTextColor,
             slidersSize: widget.slidersSize,
-            leadingDateTextStyle: widget.leadingDateTextStyle,
+            leadingDateTextStyle: widget.leadingDateTextStyle ??
+                TextStyle(color: disabledDayColor, fontSize: 18, fontWeight: FontWeight.bold),
             splashColor: widget.splashColor,
             highlightColor: widget.highlightColor,
             splashRadius: widget.splashRadius,

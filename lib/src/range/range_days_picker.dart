@@ -315,10 +315,11 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
                 child: Container(
                   height: 50,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: widget.cancelButtonColor ?? const Color(0xffFFDDC0),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  decoration: widget.cancelButtonBoxDecoration ??
+                      BoxDecoration(
+                        color: widget.cancelButtonColor ?? const Color(0xffFFDDC0),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                   child: Text(
                     "Cancel",
                     style: widget.cancelButtonTextStyle ??
@@ -337,7 +338,7 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
                 onTap: () => Navigator.pop(context, DateTimeRange(start: startingDate!, end: endingDate!)),
                 child: Container(
                   height: 50,
-                  decoration: widget.cancelButtonBoxDecoration ??
+                  decoration: widget.applyButtonBoxDecoration ??
                       BoxDecoration(
                         color: widget.applyButtonColor ?? const Color(0xffB75400),
                         borderRadius: BorderRadius.circular(10),
