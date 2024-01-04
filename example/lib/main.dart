@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
                       showDatePickerDialog(
                         maxDate: DateTime(2025),
                         context: context,
-                        minDate: DateTime(2000),
+                        minDate: DateTime.now(),
                       );
                       // print(date);
                     },

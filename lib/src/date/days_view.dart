@@ -125,7 +125,7 @@ class DaysView extends StatelessWidget {
         }
 
         if (isCurrent && isDisabled) {
-          style = disbaledCellsTextStyle;
+          style = const TextStyle(color: Colors.white);
           decoration = currentDateDecoration;
         }
 
