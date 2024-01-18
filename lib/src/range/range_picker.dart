@@ -156,7 +156,7 @@ class _RangeDatePickerState extends State<RangeDatePicker> {
                 ),
             cancelButtonBoxDecoration: widget.cancelButtonBoxDecoration ??
                 BoxDecoration(
-                  color: widget.cancelButtonColor ?? widget.defaultColor ?? const Color(0xffFFDDC0),
+                  color: widget.cancelButtonColor ?? widget.defaultColor ?? const Color.fromRGBO(255, 236, 220, 1),
                   borderRadius: BorderRadius.circular(10),
                 ),
             twoButtonCenterSpace: widget.twoButtonCenterSpace,
@@ -197,7 +197,7 @@ class _RangeDatePickerState extends State<RangeDatePicker> {
                 TextStyle(color: disabledDayColor, fontSize: 18, fontWeight: FontWeight.bold),
             splashColor: widget.splashColor,
             highlightColor: widget.highlightColor,
-            splashRadius: widget.splashRadius,
+            splashRadius: widget.splashRadius ?? 0,
             onRangeSelected: widget.onRangeSelected,
             onLeadingDateTap: () {
               setState(() {

@@ -335,7 +335,13 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
             SizedBox(width: widget.twoButtonCenterSpace ?? 10),
             Expanded(
               child: InkWell(
-                onTap: () => Navigator.pop(context, DateTimeRange(start: startingDate!, end: endingDate!)),
+                onTap: () {
+                  if (startingDate != null && endingDate != null) {
+                    Navigator.pop(context, DateTimeRange(start: startingDate!, end: endingDate!));
+                  } else {
+                    print('select start and end date');
+                  }
+                },
                 child: Container(
                   height: 50,
                   decoration: widget.applyButtonBoxDecoration ??

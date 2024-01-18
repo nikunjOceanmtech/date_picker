@@ -127,12 +127,12 @@ class _DatePickerState extends State<DatePicker> {
             selectedCellTextStyle: widget.selectedCellTextStyle ??
                 const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
             slidersColor: widget.slidersColor ?? widget.themeColor ?? defaultTextColor,
-            slidersSize: widget.slidersSize,  
+            slidersSize: widget.slidersSize,
             leadingDateTextStyle: widget.leadingDateTextStyle ??
                 TextStyle(color: disabledDayColor, fontSize: 18, fontWeight: FontWeight.bold),
             splashColor: widget.splashColor,
             highlightColor: widget.highlightColor,
-            splashRadius: widget.splashRadius,
+            splashRadius: widget.splashRadius ?? 0,
             onDateSelected: (selectedDate) {
               setState(() {
                 _displayedDate = selectedDate;
