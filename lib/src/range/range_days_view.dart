@@ -247,7 +247,7 @@ class RangeDaysView extends StatelessWidget {
         if (isCurrent && isDisabled) {
           //
           //
-          style = const TextStyle(color: Colors.white);
+          style = const TextStyle(color: Colors.black, fontWeight: FontWeight.w500);
           decoration = currentDateDecoration;
         }
 

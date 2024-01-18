@@ -336,6 +336,7 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
             Expanded(
               child: InkWell(
                 onTap: () {
+                  //   Navigator.pop(context, DateTimeRange(start: startingDate!, end: endingDate!));
                   if (startingDate != null && endingDate != null) {
                     Navigator.pop(context, DateTimeRange(start: startingDate!, end: endingDate!));
                   } else {
