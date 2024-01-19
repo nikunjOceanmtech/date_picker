@@ -121,7 +121,7 @@ class _DatePickerState extends State<DatePicker> {
             currentDateDecoration: widget.currentDateDecoration ??
                 BoxDecoration(border: Border.all(color: widget.themeColor ?? defaultTextColor), shape: BoxShape.circle),
             currentDateTextStyle: widget.currentDateTextStyle ??
-                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
+                const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
             selectedCellDecoration: widget.selectedCellDecoration ??
                 BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
             selectedCellTextStyle: widget.selectedCellTextStyle ??
