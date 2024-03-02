@@ -36,7 +36,8 @@ Future<DateTime?> showDatePickerDialog({
   Color? splashColor,
   double? splashRadius,
   Color? backgroundColor,
-  Color? themeColor
+  Color? themeColor,
+  double? borderRadius,
 }) async {
   return showDialog(
     context: context,
@@ -54,6 +55,7 @@ Future<DateTime?> showDatePickerDialog({
           backgroundColor: backgroundColor ?? Colors.white,
           surfaceTintColor: backgroundColor ?? Colors.white,
           insetPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 10))),
           child: DatePicker(
             initialDate: initialDate,
             maxDate: maxDate,
