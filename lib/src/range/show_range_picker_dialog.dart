@@ -51,6 +51,7 @@ Future<DateTimeRange?> showRangePickerDialog({
   Color? defaultColor,
   Color? cancelTextColor,
   Color? applyTextColor,
+  double? borderRadius,
 }) async {
   return showDialog(
     context: context,
@@ -68,6 +69,7 @@ Future<DateTimeRange?> showRangePickerDialog({
           backgroundColor: backgroundColor ?? Colors.white,
           surfaceTintColor: backgroundColor ?? Colors.white,
           insetPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 10))),
           child: RangeDatePicker(
             applyButtonTextStyle: applyButtonTextStyle,
             applyButtonBoxDecoration: applyButtonBoxDecoration,

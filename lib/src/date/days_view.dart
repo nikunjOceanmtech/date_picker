@@ -30,7 +30,7 @@ class DaysView extends StatelessWidget {
   })  : assert(!minDate.isAfter(maxDate), "minDate can't be after maxDate"),
         assert(() {
           if (selectedDate == null) return true;
-          return (selectedDate.isAfter(minDate) || selectedDate.isAtSameMomentAs(minDate)) ||
+          return (selectedDate.isAfter(minDate) || selectedDate.isAtSameMomentAs(minDate)) &&
               (selectedDate.isBefore(maxDate) || selectedDate.isAtSameMomentAs(maxDate));
         }(), "selected date should be in the range of min date & max date");
 
@@ -125,7 +125,7 @@ class DaysView extends StatelessWidget {
         }
 
         if (isCurrent && isDisabled) {
-          style = const TextStyle(color: Colors.black, fontWeight: FontWeight.w500);
+          style = const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500);
           decoration = currentDateDecoration;
         }
 
