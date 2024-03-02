@@ -119,8 +119,6 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
 
   @override
   void initState() {
-    startingDate = null;
-    endingDate = null;
     _displayedMonth = widget.initialDate ?? DateUtils.dateOnly(DateTime.now());
     _pageController = PageController(
       initialPage: DateUtils.monthDelta(widget.minDate, _displayedMonth!),
@@ -338,10 +336,11 @@ class __RangeDaysPickerState extends State<RangeDaysPicker> {
             Expanded(
               child: InkWell(
                 onTap: () {
+                  //   Navigator.pop(context, DateTimeRange(start: startingDate!, end: endingDate!));
                   if (startingDate != null && endingDate != null) {
                     Navigator.pop(context, DateTimeRange(start: startingDate!, end: endingDate!));
                   } else {
-                    print('please select start and end date');
+                    print('select start and end date');
                   }
                 },
                 child: Container(

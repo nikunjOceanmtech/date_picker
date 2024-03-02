@@ -277,7 +277,7 @@ class _RangeDatePickerState extends State<RangeDatePicker> {
             currentDateDecoration: widget.currentDateDecoration ??
                 BoxDecoration(color: widget.themeColor ?? defaultTextColor, shape: BoxShape.circle),
             currentDateTextStyle: widget.currentDateTextStyle ??
-                const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
+                const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),
             disbaledCellsDecoration: widget.disbaledCellsDecoration,
             disbaledCellsTextStyle: widget.disbaledCellsTextStyle ??
                 TextStyle(color: disabledDayColor1, fontSize: 15, fontWeight: FontWeight.normal),
